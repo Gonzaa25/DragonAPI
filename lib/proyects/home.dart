@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:zoologic_df/proyects/api.dart';
-import 'struct/struct.dart';
 import 'package:zoologic_df/proyects/ui/settingspage.dart';
 
 class ApiHomePage extends StatefulWidget {

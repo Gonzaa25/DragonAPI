@@ -1,7 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:zoologic_df/proyects/api.dart';
-import 'package:zoologic_df/proyects/struct/struct.dart';
 import 'package:corsac_jwt/corsac_jwt.dart';
 import 'package:crypto/crypto.dart';
 import 'dart:convert'; // for the utf8.encode method

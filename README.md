@@ -1,6 +1,6 @@
-# zoologic_df
+# Zoologic_DF
 
-A new Flutter project.
+A new Flutter project with Dragonfish API.
 
 ## Getting Started
 
