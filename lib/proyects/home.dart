@@ -46,13 +46,27 @@ class ApiHomePageState extends State<ApiHomePage> {
                 color: Colors.blue,
               ),
               ListTile(
+                title: Text("Consulta de stock"),
+                leading: Icon(Icons.search),
+                onTap: (){
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: Text("Clientes"),
+                leading: Icon(Icons.person),
+                onTap: (){
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
                 title: Text("Ajustes"),
                 leading: Icon(Icons.settings),
                 onTap: (){
                   Navigator.pop(context);
                   Navigator.push(context, MaterialPageRoute(builder: (context)=>SettingsPage()));
                 },
-              )
+              ),
             ],
           ),
         ),
