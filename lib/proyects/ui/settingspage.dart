@@ -98,30 +98,16 @@ class SettingsPageState extends State<SettingsPage> {
           onPressed: () async{
             var portv= port.value.text;
             var ipv = ip.value.text;
-            //password 
-            var key = utf8.encode(cPrivada.value.text);
-            var bytes = utf8.encode(pass.value.text);
-            var hmacSha256 = new Hmac(sha256,key); // HMAC-SHA256
-            var digest = hmacSha256.convert(bytes);
-            //password 
-            var builder = new JWTBuilder();
-            var password=digest.toString();
-            var token = builder
-              ..expiresAt=DateTime.now().add(Duration(hours: 8760))
-              ..setClaim('usuario',user.value.text)
-              ..setClaim("password", password)
-              ..getToken(); // returns token without signature
-            var signer = new JWTHmacSha256Signer(cPrivada.value.text);
-            var signedToken = builder.getSignedToken(signer);
-            
+            final tokenAPI = DF().generateToken(idCliente.value.text,cPrivada.value.text,user.value.text,pass.value.text);  
+            print("obtain token:"+tokenAPI.toString());       
             try{
-               connect= await DF().initApi('http://$ipv:$portv/api.Dragonfish/Autenticar',idCliente.value.text,signedToken.toString());
+               connect= await DF().initApi('http://$ipv:$portv/api.Dragonfish/Autenticar',idCliente.value.text,tokenAPI.toString());
             }catch(e){
               connect=false;
             }
             print("conexion status: "+connect.toString());
             if (connect) {
-              await DF().saveApiSettings(ip.value.text,port.value.text,idCliente.value.text,cPrivada.value.text,user.value.text,pass.value.text,signedToken.toString());
+              await DF().saveApiSettings(ip.value.text,port.value.text,idCliente.value.text,cPrivada.value.text,user.value.text,pass.value.text,tokenAPI.toString());
               DF.connectStatus=true;
               scaffolkey.currentState.showSnackBar(SnackBar(content: Text('Conexión establecida con éxito'),backgroundColor: Colors.green));
             } else {

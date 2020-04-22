@@ -2,6 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:corsac_jwt/corsac_jwt.dart';
+import 'package:crypto/crypto.dart';
+import 'dart:convert';
 
 class DF{
   String apiurl;
@@ -62,7 +65,27 @@ class DF{
     idCliente=idClienteAPI;
     cPrivada=cPrivadaAPI;
     user=userAPI;
-    pass=tokenAPI;
+    pass=passAPI;
+    token=tokenAPI;
   }
   
+  String generateToken(String idClienteAPI,String cPrivadaApi,String userAPI,String passAPI){
+      //password 
+      var key = utf8.encode(cPrivadaApi);
+      var bytes = utf8.encode(passAPI);
+      var hmacSha256 = new Hmac(sha256,key); // HMAC-SHA256
+      var digest = hmacSha256.convert(bytes);
+      //password 
+      var builder = new JWTBuilder();
+      var password=digest.toString();
+      var token = builder
+        ..expiresAt=DateTime.now().add(Duration(hours: 8760))
+        ..setClaim('usuario',userAPI)
+        ..setClaim("password", password)
+        ..getToken(); // returns token without signature
+      var signer = new JWTHmacSha256Signer(cPrivadaApi);
+      var signedToken = builder.getSignedToken(signer);
+    return signedToken.toString();
+  }
+
 }
